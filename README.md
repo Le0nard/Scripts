@@ -1,2 +1,2 @@
-# Useful-Scripts
+# Scripts
 raccolta di script utili
