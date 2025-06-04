@@ -1,8 +1,8 @@
 def arithmetic_arranger(problems, show_answers=False):
-    error_encountered = 0 # max 5
-    error_operator = False
-    error_digit = False
-    error_numbers_of_digits = False
+    
+    if len(problems) > 5:
+        return "Error: Too many problems."
+    
     dictionary = "0123456789"
     unacceptable_operators = ["*", "/"]
 
@@ -16,33 +16,23 @@ def arithmetic_arranger(problems, show_answers=False):
         
         # Check if the first operand is too long
         if len(parts[0]) > 4:
-            error_numbers_of_digits = True
-            print('Error: Numbers cannot be more than four digits.')
-            error_encountered += 1
+            return 'Error: Numbers cannot be more than four digits.'
         if not all(char in dictionary for char in parts[0]):
-            error_digit = True
-            print('Error: Numbers must only contain digits.')
-            error_encountered += 1
+            return 'Error: Numbers must only contain digits.'
         #else:
         #    first_numbers.append(parts[0])
         
         # Check if the operator is valid
         if parts[1] in unacceptable_operators:
-            error_operator = True
-            print("Error: Operator must be '+' or '-'.")
-            error_encountered += 1
+            return "Error: Operator must be '+' or '-'."
         #else:
         #    operators.append(parts[1])
         
         # Check if the second operand is too long
         if len(parts[2]) > 4:
-            error_numbers_of_digits = True
-            print('Error: Numbers cannot be more than four digits.')
-            error_encountered += 1
+            return 'Error: Numbers cannot be more than four digits.'
         if not all(char in dictionary for char in parts[2]):
-            error_digit = True
-            print('Error: Numbers must only contain digits.')
-            error_encountered += 1
+            return 'Error: Numbers must only contain digits.'
         #else:
         #    second_numbers.append(parts[2])
         
@@ -56,8 +46,9 @@ def arithmetic_arranger(problems, show_answers=False):
             if int(parts[0]) - int(parts[2]) > 0:
                 third_numbers.append(str(int(parts[0]) - int(parts[2])).rjust(max_length))
             else:
-                third_numbers.append((parts[1] + str(int(parts[2]) - int(parts[0]))).rjust(max_length-1))
-        
+                third_numbers.append((parts[1] + str(int(parts[2]) - int(parts[0]))).rjust(max_length))
+    
+    
         first_numbers.append('    ')
         second_numbers.append('    ')
         dashes.append('    ')
@@ -67,25 +58,23 @@ def arithmetic_arranger(problems, show_answers=False):
     second_string = ''.join(second_numbers)
     dashes_string = ''.join(dashes)
     third_string = ''.join(third_numbers)
+
+    # remove the last 4 spaces from each string
+    first_string = first_string.rstrip()
+    second_string = second_string.rstrip()
+    dashes_string = dashes_string.rstrip()
+    third_string = third_string.rstrip()
+    
     
     string_with_answer = first_string + '\n' + second_string + '\n' + dashes_string + '\n' + third_string
 
     string_without_answer = first_string + '\n' + second_string + '\n' + dashes_string
     
-    if error_encountered < 5:
-        if error_operator:
-            return "Error: Operator must be '+' or '-'."
-        elif error_digit:
-            return "Error: Numbers must only contain digits."
-        elif error_numbers_of_digits:
-            return "Error: Numbers cannot be more than four digits."
-        
-        if show_answers:
-            return string_with_answer
-        else:
-            return string_without_answer
+    if show_answers:
+        return string_with_answer
     else:
-        return "Error: Too many problems."
+        return string_without_answer
+
 
 #print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
 
@@ -94,5 +83,7 @@ def arithmetic_arranger(problems, show_answers=False):
 #operation_2 = ["3 + 855", "3801 - 2", "45 + 43", "123 + 49"]
 #operation_3 = ["3 / 855", "3801 - 2", "45 + 43", "123 + 49"]
 #operation_6 = ["3 / 855", "3801 - 2", "45 + 43", "123 + 49"]
-operation_8 = ["98 + 3g5", "3801 - 2", "45 + 43", "123 + 49"]
-print(arithmetic_arranger(operation_8, False))
+#operation_8 = ["98 + 3g5", "3801 - 2", "45 + 43", "123 + 49"]
+operation_10 = ["32 - 698", "1 - 3801", "45 + 43", "123 + 49", "988 + 40"]
+print()
+print(arithmetic_arranger(operation_10, True))
